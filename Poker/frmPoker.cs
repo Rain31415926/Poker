@@ -115,6 +115,40 @@ namespace Poker
 
         #region 事件處理程序
 
+        private int currentBet = 0;
+
+        /// <summary>
+        /// 當按下押注按鈕時
+        /// </summary>
+        private void btnBet_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtBetAmount.Text, out int betAmount) && int.TryParse(txtTotalFunds.Text, out int totalFunds))
+            {
+                if (betAmount <= 0)
+                {
+                    MessageBox.Show("下注金額必須大於0！");
+                    return;
+                }
+                if (totalFunds < betAmount)
+                {
+                    MessageBox.Show("資金不足！");
+                    return;
+                }
+
+                totalFunds -= betAmount;
+                currentBet = betAmount;
+                txtTotalFunds.Text = totalFunds.ToString();
+
+                btnBet.Enabled = false;
+                txtBetAmount.Enabled = false;
+                btnDealCard.Enabled = true;
+            }
+            else
+            {
+                MessageBox.Show("請輸入有效的金額！");
+            }
+        }
+
         /// <summary>
         /// 牌桌上的牌被按下時，顯示訊息框告訴使用者按下了哪一張牌
         /// </summary>
@@ -335,52 +369,77 @@ namespace Poker
             bool isOnePair = (pointCount[0] == 2 && pointCount[1] == 1);
 
             string result = "";
+            int multiplier = 0;
 
             if (isRoyalisFlush)
             {
                 result = $"{colorList[0]} 同花大順";
+                multiplier = 250;
             }
             else if (isStraightFlush)
             {
                 result = $"{colorList[0]} 同花順";
-            }
-            else if (isStraight)
-            {
-                result = "順子";
+                multiplier = 50;
             }
             else if (isFourOfAKind)
             {
                 result = $"{pointList[0]} 鐵支";
+                multiplier = 25;
             }
             else if (isFullHouse)
             {
                 result = $"{pointList[0]}三張{pointList[1]}兩張 葫蘆";
+                multiplier = 9;
             }
             else if (isFlush)
             {
                 result = $"{colorList[0]} 同花";
+                multiplier = 6;
+            }
+            else if (isStraight)
+            {
+                result = "順子";
+                multiplier = 4;
             }
             else if (isThreeOfAKind)
             {
                 result = $"{pointList[0]} 三條";
+                multiplier = 3;
             }
             else if (isTwoPair)
             {
                 result = $"{pointList[0]},{pointList[1]} 兩對";
+                multiplier = 2;
             }
             else if (isOnePair)
             {
                 result = $"{pointList[0]} 一對";
+                multiplier = 1;
             }
             else
             {
                 result = "雜牌";
+                multiplier = 0;
             }
+
+            int winAmount = currentBet * multiplier;
+            if (winAmount > 0)
+            {
+                result += $"，贏得 {winAmount} 元";
+                if (int.TryParse(txtTotalFunds.Text, out int totalFunds))
+                {
+                    txtTotalFunds.Text = (totalFunds + winAmount).ToString();
+                }
+            }
+            
             lblResult.Text = result;
             btnChangeCard.Enabled = false;
             btnCheck.Enabled = false;
 
-            btnDealCard.Enabled = true;
+            btnBet.Enabled = true;
+            txtBetAmount.Enabled = true;
+            // btnDealCard 會在下注後才啟用
+            btnDealCard.Enabled = false;
         }
 
         /// <summary>
