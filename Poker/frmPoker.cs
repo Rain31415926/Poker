@@ -122,7 +122,7 @@ namespace Poker
         /// </summary>
         private void btnBet_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(txtBetAmount.Text, out int betAmount) && int.TryParse(txtTotalFunds.Text, out int totalFunds))
+            if (int.TryParse(txtBetAmount.Text, out int betAmount) && int.TryParse(txtTotalFunds.Text.Replace(",", ""), out int totalFunds))
             {
                 if (betAmount <= 0)
                 {
@@ -137,9 +137,10 @@ namespace Poker
 
                 totalFunds -= betAmount;
                 currentBet = betAmount;
-                txtTotalFunds.Text = totalFunds.ToString();
+                txtTotalFunds.Text = totalFunds.ToString("N0");
 
                 btnBet.Enabled = false;
+                btnAllIn.Enabled = false;
                 txtBetAmount.Enabled = false;
                 btnDealCard.Enabled = true;
             }
@@ -147,6 +148,17 @@ namespace Poker
             {
                 MessageBox.Show("請輸入有效的金額！");
             }
+        }
+
+        /// <summary>
+        /// 當按下梭哈按鈕時
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAllIn_Click(object sender, EventArgs e)
+        {
+            txtBetAmount.Text = txtTotalFunds.Text.Replace(",", "");
+            btnBet.PerformClick();
         }
 
         /// <summary>
@@ -425,10 +437,10 @@ namespace Poker
             int winAmount = currentBet * multiplier;
             if (winAmount > 0)
             {
-                result += $"，贏得 {winAmount} 元";
-                if (int.TryParse(txtTotalFunds.Text, out int totalFunds))
+                result += $"，贏得 {winAmount:N0} 元";
+                if (int.TryParse(txtTotalFunds.Text.Replace(",", ""), out int totalFunds))
                 {
-                    txtTotalFunds.Text = (totalFunds + winAmount).ToString();
+                    txtTotalFunds.Text = (totalFunds + winAmount).ToString("N0");
                 }
             }
             
@@ -437,6 +449,7 @@ namespace Poker
             btnCheck.Enabled = false;
 
             btnBet.Enabled = true;
+            btnAllIn.Enabled = true;
             txtBetAmount.Enabled = true;
             // btnDealCard 會在下注後才啟用
             btnDealCard.Enabled = false;
@@ -487,7 +500,7 @@ namespace Poker
                         playerPoker[4] = 36;
                         break;
                     case 't':
-                        // 葫蘆
+                        // 葫蘇
                         playerPoker[0] = 30;
                         playerPoker[1] = 29;
                         playerPoker[2] = 6;

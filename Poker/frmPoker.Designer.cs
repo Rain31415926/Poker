@@ -34,6 +34,7 @@
             this.txtTotalFunds = new System.Windows.Forms.TextBox();
             this.lblBetAmount = new System.Windows.Forms.Label();
             this.txtBetAmount = new System.Windows.Forms.TextBox();
+            this.btnAllIn = new System.Windows.Forms.Button();
             this.btnBet = new System.Windows.Forms.Button();
             this.grpButton = new System.Windows.Forms.GroupBox();
             this.lblResult = new System.Windows.Forms.Label();
@@ -60,6 +61,7 @@
             this.grpBet.Controls.Add(this.txtTotalFunds);
             this.grpBet.Controls.Add(this.lblBetAmount);
             this.grpBet.Controls.Add(this.txtBetAmount);
+            this.grpBet.Controls.Add(this.btnAllIn);
             this.grpBet.Controls.Add(this.btnBet);
             this.grpBet.Font = new System.Drawing.Font("Microsoft JhengHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.grpBet.Location = new System.Drawing.Point(12, 178);
@@ -101,16 +103,26 @@
             // 
             this.txtBetAmount.Location = new System.Drawing.Point(280, 32);
             this.txtBetAmount.Name = "txtBetAmount";
-            this.txtBetAmount.Size = new System.Drawing.Size(80, 29);
+            this.txtBetAmount.Size = new System.Drawing.Size(65, 29);
             this.txtBetAmount.TabIndex = 3;
             this.txtBetAmount.Text = "500";
             this.txtBetAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // btnAllIn
+            // 
+            this.btnAllIn.Location = new System.Drawing.Point(351, 28);
+            this.btnAllIn.Name = "btnAllIn";
+            this.btnAllIn.Size = new System.Drawing.Size(55, 36);
+            this.btnAllIn.TabIndex = 5;
+            this.btnAllIn.Text = "梭哈";
+            this.btnAllIn.UseVisualStyleBackColor = true;
+            this.btnAllIn.Click += new System.EventHandler(this.btnAllIn_Click);
+            // 
             // btnBet
             // 
-            this.btnBet.Location = new System.Drawing.Point(384, 28);
+            this.btnBet.Location = new System.Drawing.Point(412, 28);
             this.btnBet.Name = "btnBet";
-            this.btnBet.Size = new System.Drawing.Size(67, 36);
+            this.btnBet.Size = new System.Drawing.Size(55, 36);
             this.btnBet.TabIndex = 4;
             this.btnBet.Text = "押注";
             this.btnBet.UseVisualStyleBackColor = true;
@@ -180,7 +192,9 @@
             this.Controls.Add(this.grpBet);
             this.Controls.Add(this.grpButton);
             this.Controls.Add(this.grpPoker);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
+            this.MaximizeBox = false;
             this.Name = "frmPoker";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "五張撲克牌";
@@ -200,6 +214,7 @@
         private System.Windows.Forms.TextBox txtTotalFunds;
         private System.Windows.Forms.Label lblBetAmount;
         private System.Windows.Forms.TextBox txtBetAmount;
+        private System.Windows.Forms.Button btnAllIn;
         private System.Windows.Forms.Button btnBet;
         private System.Windows.Forms.GroupBox grpButton;
         private System.Windows.Forms.Button btnCheck;
