@@ -141,6 +141,8 @@ namespace Poker
 
                 btnBet.Enabled = false;
                 btnAllIn.Enabled = false;
+                btnMinus500.Enabled = false;
+                btnPlus500.Enabled = false;
                 txtBetAmount.Enabled = false;
                 btnDealCard.Enabled = true;
             }
@@ -159,6 +161,32 @@ namespace Poker
         {
             txtBetAmount.Text = txtTotalFunds.Text.Replace(",", "");
             btnBet.PerformClick();
+        }
+
+        private void btnPlus500_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtBetAmount.Text, out int betAmount) && int.TryParse(txtTotalFunds.Text.Replace(",", ""), out int totalFunds))
+            {
+                betAmount += 500;
+                if (betAmount > totalFunds)
+                {
+                    betAmount = totalFunds;
+                }
+                txtBetAmount.Text = betAmount.ToString();
+            }
+        }
+
+        private void btnMinus500_Click(object sender, EventArgs e)
+        {
+            if (int.TryParse(txtBetAmount.Text, out int betAmount))
+            {
+                betAmount -= 500;
+                if (betAmount < 1)
+                {
+                    betAmount = 1; // 最小押注為 1
+                }
+                txtBetAmount.Text = betAmount.ToString();
+            }
         }
 
         /// <summary>
@@ -450,6 +478,8 @@ namespace Poker
 
             btnBet.Enabled = true;
             btnAllIn.Enabled = true;
+            btnMinus500.Enabled = true;
+            btnPlus500.Enabled = true;
             txtBetAmount.Enabled = true;
             // btnDealCard 會在下注後才啟用
             btnDealCard.Enabled = false;
